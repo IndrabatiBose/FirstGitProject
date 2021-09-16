@@ -1,0 +1,23 @@
+package granite_cpa;
+
+public class Granite {
+	
+	public int graniteId;
+	public String graniteName;
+	public String graniteUse;
+	public int pricePerSqFt;
+	public String quality;
+	
+	
+	public Granite()
+	{
+		this.graniteId = 0;
+		this.graniteName = "";
+		this.graniteUse = "";
+		this.pricePerSqFt = 0;
+		this.quality = "";
+	}
+	
+	
+
+}

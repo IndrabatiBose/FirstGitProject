@@ -1,0 +1,125 @@
+package granite_cpa;
+import java.util.Scanner;
+
+public class MyClass {
+
+	public static void main(String[] args) {
+
+		Scanner sc = new Scanner(System.in);
+		
+		Granite[] sourceArray = new Granite[4];
+		for(int i=0; i<sourceArray.length; i++)
+		{
+			Granite x = new Granite();
+			x.graniteId = sc.nextInt();
+			sc.nextLine();
+			x.graniteName = sc.nextLine();
+			x.graniteUse = sc.nextLine();
+			x.pricePerSqFt = sc.nextInt();
+			sc.nextLine();
+			x.quality = sc.nextLine();
+			
+			sourceArray[i] = x;
+		}
+		
+		
+		String givenGraniteName = sc.nextLine();
+		int givenTotalSqFt = sc.nextInt();
+		sc.nextLine();
+		String givenQuality =sc.nextLine();
+		sc.close();
+		
+		double tPrice = getTotalPriceBasedOnSqFt(sourceArray, givenGraniteName, givenTotalSqFt);
+		if ( tPrice !=0)
+		{
+			System.out.println(tPrice);
+		}
+		else
+		{
+			System.out.println("Granite Name is not found");
+		}
+		
+		Granite y = findGraniteBasedOnQuality(sourceArray, givenQuality);
+		if(y != null)
+		{
+			System.out.println(y.graniteName);
+			System.out.println(y.quality);
+			System.out.println(y.pricePerSqFt);
+			
+		}
+		else
+		{
+			System.out.println("There is no matching granite with the given quality");
+		}
+				
+	}
+	
+	public static double getTotalPriceBasedOnSqFt( Granite[] sourceArray, String givenGraniteName, int givenTotalSqFt)
+	{
+		int c=0; double totalPrice=0;
+		
+		
+		
+		for(int i=0; i<sourceArray.length; i++)
+		{
+			if(sourceArray[i].graniteName.equalsIgnoreCase(givenGraniteName))
+			{
+				Granite x = sourceArray[i];
+				totalPrice = totalPrice + (x.pricePerSqFt * givenTotalSqFt + (0.2 * givenTotalSqFt));
+				c++;
+			}
+		}
+		if(c>0)
+		{
+			return totalPrice;
+		}
+		else
+		{
+			return 0;
+		}
+		
+	}
+	
+	public static Granite findGraniteBasedOnQuality(Granite[] sourceArray, String givenQuality)
+	{
+		int c=0; 
+		Granite[] x = new Granite[sourceArray.length];
+		
+		for(int i=0; i<sourceArray.length; i++)
+		{
+			if(sourceArray[i].quality.equalsIgnoreCase(givenQuality))
+			{
+				x[c] = sourceArray[i];
+				c++;
+			}
+		}
+		if(c >0)
+		{
+			for(int i=0; i<x.length; i++)
+			{
+				for(int j=i+1; j<x.length; j++)
+				{
+					if(x[i] != null && x[j] != null && x[j].pricePerSqFt < x[i].pricePerSqFt)
+					{
+						Granite temp = x[j];
+						x[j] = x[i];
+						x[i] = temp;
+					}
+				}
+			}
+		}
+		if(c>0)
+		{
+			return x[1];
+		}
+		else if(c==1)
+		{
+			return x[0];
+		}
+		else
+		{
+			return null;
+	}
+	}
+
+}
